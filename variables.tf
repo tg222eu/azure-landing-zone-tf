@@ -4,8 +4,8 @@ variable "location" {
     default     = "Sweden Central"
 }
 
-variable "resource_group_name"{
-    description = "Name of the resource group"
+variable "networking_resource_group_name"{
+    description = "Networking resource group"
     type        = string
-    default     = "test-rg"
+    default     = "rg-networking"
 }
