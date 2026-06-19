@@ -1,4 +1,4 @@
-#<resource>-<Project name>-<env>
+#<resource>-<project>-<env>
 
 variable "location" {
     description = "Azure region"
@@ -21,17 +21,17 @@ variable "Virtual_Network_name"{
 variable "App_subnet_name"{
     description = "App subnet"
     type        = string
-    default     = "snetapp-platform-dev"
+    default     = "snet-app-platform-dev"
 }
 
 variable "Data_subnet_name"{
     description = "Data subnet"
     type        = string
-    default     = "snetdata-platform-dev"
+    default     = "snet-data-platform-dev"
 }
 
 variable "Management_subnet_name"{
     description = "Management subnet"
     type        = string
-    default     = "snetmgmt-platform-dev"
+    default     = "snet-mgmt-platform-dev"
 }
