@@ -10,6 +10,7 @@ terraform {
 resource "azurerm_resource_group" "platform" {
   name      = var.platform_resource_group_name
   location  = var.location
+  tags      = locals.common_tags
 }
 
 resource "azurerm_virtual_network" "hub" {
@@ -17,6 +18,7 @@ resource "azurerm_virtual_network" "hub" {
   location             = var.location
   resource_group_name  = azurerm_resource_group.platform.name
   address_space        = ["10.0.0.0/16"]
+  tags                 = local.common_tags
 }
 
 resource "azurerm_subnet" "app" {
@@ -48,6 +50,7 @@ resource "azurerm_network_security_group" "app" {
   location              = var.location
   resource_group_name   = var.platform_resource_group_name
   depends_on            = [azurerm_virtual_network.hub]
+  tags                  = locals.common_tags
 }
 
 resource "azurerm_network_security_group" "data" {
@@ -55,6 +58,7 @@ resource "azurerm_network_security_group" "data" {
   location              = var.location
   resource_group_name   = var.platform_resource_group_name
   depends_on            = [azurerm_virtual_network.hub]
+  tags                  = locals.common_tags
 }
 
 resource "azurerm_network_security_group" "mgmt" {
@@ -62,6 +66,7 @@ resource "azurerm_network_security_group" "mgmt" {
   location              = var.location
   resource_group_name   = var.platform_resource_group_name
   depends_on            = [azurerm_virtual_network.hub]
+  tags                  = locals.common_tags
 }
 
 resource "azurerm_subnet_network_security_group_association" "app" {
