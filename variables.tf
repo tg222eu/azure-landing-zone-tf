@@ -18,7 +18,9 @@ variable "virtual_network_name"{
     default     = "vnet-platform-dev"
 }
 
-##########SUBNETS###########
+# ==========================
+# SUBNETS
+# ==========================
 
 variable "app_subnet_name"{
     description = "App subnet name"
@@ -56,7 +58,9 @@ variable "management_subnet_address_prefix"{
     default     = "10.0.3.0/24"
 }
 
-######## NSG #########
+# ==========================
+# NSG
+# ==========================
 
 variable "app_nsg_name"{
     description = "App NSG"
@@ -74,4 +78,26 @@ variable "mgmt_nsg_name"{
     description = "Management NSG"
     type        = string
     default     = "nsg-mgmt-platform-dev"
+}
+
+# ==========================
+# Tags
+# ==========================
+
+variable "environment" {
+    description = "Environment name (dev, test, prod)" # test/prod not used yet
+    type        = string
+    default     = "dev"
+}
+
+variable "owner" {
+    description = "Owner name"
+    type        = string
+    default     = "Thorvald"
+}
+
+variable "cost_center" {
+    description = "Cost center for billing"
+    type        = string
+    default     = "IT-Platform"
 }
