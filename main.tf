@@ -104,8 +104,38 @@ resource "azurerm_subnet_network_security_group_association" "mgmt" {
 # Networking - Security Rules
 # ==========================================
 
+resource "azurerm_network_security_rule" "app_deny_internet" {
+  name                        = "Deny-All-Inbound-From-Internet"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Deny"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "*"
+  source_address_prefix       = "Internet"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.platform.name
+  network_security_group_name = azurerm_network_security_group.app.name
+  description                 = "Deny all inbound traffic from the internet to app subnet"
+}
+
+resource "azurerm_network_security_rule" "data_deny_internet" {
+  name                        = "Deny-All-Inbound-From-Internet"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Deny"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "*"
+  source_address_prefix       = "Internet"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.platform.name
+  network_security_group_name = azurerm_network_security_group.app.name
+  description                 = "Deny all inbound traffic from the internet to app subnet"
+}
+
 resource "azurerm_network_security_rule" "mgmt_allow_rdp" {
-  name                        = "Allow-RDP-3389-from-IP"
+  name                        = "Allow-RDP-3389-From-IP"
   priority                    = 100
   direction                   = "Inbound"
   access                      = "Allow"
@@ -120,7 +150,7 @@ resource "azurerm_network_security_rule" "mgmt_allow_rdp" {
 }
 
 resource "azurerm_network_security_rule" "mgmt_allow_ssh" {
-  name                        = "Allow-SSH-22-from-IP"
+  name                        = "Allow-SSH-22-From-IP"
   priority                    = 110
   direction                   = "Inbound"
   access                      = "Allow"
