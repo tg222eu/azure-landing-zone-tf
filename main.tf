@@ -13,6 +13,10 @@ resource "azurerm_resource_group" "platform" {
   tags      = local.common_tags
 }
 
+# ==========================================
+# Networking - VNet + Subnets
+# ==========================================
+
 resource "azurerm_virtual_network" "hub" {
   name                 = var.virtual_network_name
   location             = var.location
@@ -44,6 +48,10 @@ resource "azurerm_subnet" "mgmt" {
   address_prefixes      = [var.management_subnet_address_prefix]
   depends_on            = [azurerm_virtual_network.hub]
 }
+
+# ==========================================
+# Networking - NSGs
+# ==========================================
 
 resource "azurerm_network_security_group" "app" {
   name                  = var.app_nsg_name
@@ -83,3 +91,7 @@ resource "azurerm_subnet_network_security_group_association" "mgmt" {
   subnet_id                   = azurerm_subnet.mgmt.id
   network_security_group_id   = azurerm_network_security_group.mgmt.id
 }
+
+# ==========================================
+# Networking - Security Rules
+# ==========================================
