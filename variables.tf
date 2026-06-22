@@ -109,4 +109,5 @@ variable "cost_center" {
 variable "my_public_ip" {
   description = "My public IP"
   type        = string
+  # IP stored locally
 }
