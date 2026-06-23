@@ -111,3 +111,9 @@ variable "my_public_ip" {
   type        = string
   # IP stored locally
 }
+
+variable "key_vault_name" {
+  description = "Key vault name"
+  type        = string
+  # Key stored locally
+}
