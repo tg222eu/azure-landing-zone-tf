@@ -61,7 +61,7 @@ resource "azurerm_key_vault" "main" {
   tenant_id                   = data.azurerm_client_config.current.tenant_id
   sku_name                    = "standard"
   rbac_authorization_enabled  = true
-  soft_delete_retention_days  = 0
+  soft_delete_retention_days  = 0 # Value is 0 while developing, standard 90
   purge_protection_enabled    = false
   tags                        = local.common_tags
 }
@@ -85,4 +85,10 @@ resource "azurerm_storage_account" "logs" {
   account_replication_type    = "LRS"
   account_kind                = "StorageV2"
   https_traffic_only_enabled  = true
+  tags                        = local.common_tags
+
+  network_rules {
+    default_action = "Deny"
+    bypass         = ["AzureServices"]
+  }
 }
