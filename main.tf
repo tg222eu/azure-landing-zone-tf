@@ -60,7 +60,7 @@ resource "azurerm_key_vault" "main" {
   name                        = var.key_vault_name
   location                    = var.location
   resource_group_name         = azurerm_resource_group.platform.name
-  tenant_id                   = data.azurerm_client_config.current.tenant_id
+  tenant_id                   = data.azurerm_client_config.current_user.tenant_id
   sku_name                    = "standard"
   rbac_authorization_enabled  = true
   soft_delete_retention_days  = 0 # Value is 0 while developing, standard 90
