@@ -1,4 +1,4 @@
-# LandingZone
+# Azure Landing Zone
 
 **Personal learning project** – Exploring Azure landing zone patterns using Terraform
 
