@@ -53,7 +53,7 @@ resource "azurerm_subnet" "mgmt" {
 }
 
 # ==========================================
-# Security - Key Vault & Access (RBAC)
+# Security - Key Vault
 # ==========================================
 
 resource "azurerm_key_vault" "main" {
@@ -76,6 +76,10 @@ resource "azurerm_key_vault_secret" "test" {
 
   depends_on = [ azurerm_role_assignment.key_vault_access ]
 }
+
+# ==========================================
+# Security - RBAC
+# ==========================================
 
 resource "azurerm_role_assignment" "key_vault_access" {
   scope                 = azurerm_resource_group.lz.id
