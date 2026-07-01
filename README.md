@@ -1,6 +1,6 @@
-# Azure Landing Zone
+# Azure Platform Foundation
 
-**Personal learning project** – Exploring Azure landing zone patterns using Terraform
+**Personal learning project** – Exploring Azure Platform Foundation patterns using Terraform
 
 ### Current Status
 This is an early-stage project I started recently to practice Infrastructure as Code concepts.
