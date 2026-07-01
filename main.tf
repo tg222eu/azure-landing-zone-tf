@@ -90,7 +90,7 @@ resource "azurerm_role_assignment" "key_vault_access" {
 resource "azurerm_role_assignment" "resource_group_reader" {
   scope                 = azurerm_resource_group.lz.id
   role_definition_name  = "Reader"
-  principal_id          = data.azuread_client_config.readers.object_id
+  principal_id          = azuread_group.readers.object_id
 }
 
 # ==========================================
