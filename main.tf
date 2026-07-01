@@ -8,7 +8,7 @@ terraform {
 }
 
 data "azurerm_client_config" "current_user" {}
-data "azuread_client_config" "current_user" {} # For testing
+data "azuread_client_config" "readers" {} # For testing
 
 resource "azurerm_resource_group" "lz" {
   name      = var.lz_resource_group_name
