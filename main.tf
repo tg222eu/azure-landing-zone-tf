@@ -3,14 +3,14 @@ terraform {
     resource_group_name  = "rg-terraform-state"
     storage_account_name = "stterraformstate9482"
     container_name       = "tfstate"
-    key                  = "landing-zone.tfstate"
+    key                  = "platform-foundation.tfstate"
   }
 }
 
 data "azurerm_client_config" "current_user" {}
 
-resource "azurerm_resource_group" "lz" {
-  name      = var.lz_resource_group_name
+resource "azurerm_resource_group" "platform" {
+  name      = var.platform_resource_group_name
   location  = var.location
   tags      = local.common_tags
 }
@@ -22,7 +22,7 @@ resource "azurerm_resource_group" "lz" {
 resource "azurerm_virtual_network" "hub" {
   name                 = var.virtual_network_name
   location             = var.location
-  resource_group_name  = azurerm_resource_group.lz.name
+  resource_group_name  = azurerm_resource_group.platform.name
   address_space        = ["10.0.0.0/16"]
   tags                 = local.common_tags
 }
@@ -34,21 +34,21 @@ resource "azurerm_virtual_network" "hub" {
 resource "azurerm_subnet" "app" {
   name                  = var.app_subnet_name
   virtual_network_name  = azurerm_virtual_network.hub.name
-  resource_group_name   = azurerm_resource_group.lz.name
+  resource_group_name   = azurerm_resource_group.platform.name
   address_prefixes      = [var.app_subnet_address_prefix]
 }
 
 resource "azurerm_subnet" "data" {
   name                  = var.data_subnet_name
   virtual_network_name  = azurerm_virtual_network.hub.name
-  resource_group_name   = azurerm_resource_group.lz.name
+  resource_group_name   = azurerm_resource_group.platform.name
   address_prefixes      = [var.data_subnet_address_prefix]
 }
 
 resource "azurerm_subnet" "mgmt" {
   name                  = var.management_subnet_name
   virtual_network_name  = azurerm_virtual_network.hub.name
-  resource_group_name   = azurerm_resource_group.lz.name
+  resource_group_name   = azurerm_resource_group.platform.name
   address_prefixes      = [var.management_subnet_address_prefix]
 }
 
@@ -59,7 +59,7 @@ resource "azurerm_subnet" "mgmt" {
 resource "azurerm_key_vault" "main" {
   name                        = var.key_vault_name
   location                    = var.location
-  resource_group_name         = azurerm_resource_group.lz.name
+  resource_group_name         = azurerm_resource_group.platform.name
   tenant_id                   = data.azurerm_client_config.current_user.tenant_id
   sku_name                    = "standard"
   rbac_authorization_enabled  = true
@@ -82,13 +82,13 @@ resource "azurerm_key_vault_secret" "test" {
 # ==========================================
 
 resource "azurerm_role_assignment" "key_vault_access" {
-  scope                 = azurerm_resource_group.lz.id
+  scope                 = azurerm_resource_group.platform.id
   role_definition_name  = "Key Vault Secrets Officer"
   principal_id          = data.azurerm_client_config.current_user.object_id
 }
 
 resource "azurerm_role_assignment" "resource_group_reader" {
-  scope                 = azurerm_resource_group.lz.id
+  scope                 = azurerm_resource_group.platform.id
   role_definition_name  = "Reader"
   principal_id          = azuread_group.readers.object_id
 }
@@ -98,8 +98,8 @@ resource "azurerm_role_assignment" "resource_group_reader" {
 # ==========================================
 
 resource "azuread_group" "readers" {
-  display_name      = "rg-lz-readers"
-  description       = "Read-only access to landing zone resource group"
+  display_name      = "rg-platform-readers"
+  description       = "Read-only access to platform resource group"
   security_enabled  = true
   mail_enabled      = false
 }
@@ -110,7 +110,7 @@ resource "azuread_group" "readers" {
 
 resource "azurerm_storage_account" "logs" {
   name                        = var.storage_account_log_name
-  resource_group_name         = azurerm_resource_group.lz.name
+  resource_group_name         = azurerm_resource_group.platform.name
   location                    = var.location
   account_tier                = "Standard"
   account_replication_type    = "LRS"
