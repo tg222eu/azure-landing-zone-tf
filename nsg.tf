@@ -1,6 +1,10 @@
-# ==========================================
+# =============================================================================
+# Network Security Group - Platform Foundation
+# =============================================================================
+
+# =============================================================================
 # Networking - NSGs
-# ==========================================
+# =============================================================================
 
 resource "azurerm_network_security_group" "app" {
   name                  = var.app_nsg_name
@@ -23,9 +27,9 @@ resource "azurerm_network_security_group" "mgmt" {
   tags                  = local.common_tags
 }
 
-# ==========================================
+# =============================================================================
 # Networking - NSG Associations
-# ==========================================
+# =============================================================================
 
 resource "azurerm_subnet_network_security_group_association" "app" {
   subnet_id                   = azurerm_subnet.app.id
@@ -42,9 +46,9 @@ resource "azurerm_subnet_network_security_group_association" "mgmt" {
   network_security_group_id   = azurerm_network_security_group.mgmt.id
 }
 
-# ==========================================
+# =============================================================================
 # Networking - Security Rules
-# ==========================================
+# =============================================================================
 
 resource "azurerm_network_security_rule" "app_deny_internet" {
   name                        = "Deny-All-Inbound-From-Internet"
